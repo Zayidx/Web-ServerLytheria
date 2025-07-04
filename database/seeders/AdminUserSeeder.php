@@ -1,0 +1,25 @@
+<?php
+// File: database/seeders/AdminUserSeeder.php
+// Buat file seeder baru ini
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
+class AdminUserSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'), // ganti dengan password yang aman
+            'role' => 'admin',
+        ]);
+    }
+}
