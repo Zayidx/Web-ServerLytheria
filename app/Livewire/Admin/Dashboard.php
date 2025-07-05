@@ -89,6 +89,15 @@ class Dashboard extends Component
         }, 'Cache berhasil dibersihkan!', 'Gagal membersihkan cache.');
     }
 
+    public function runStorageLink()
+    {
+        $this->runCommand(function ($component) {
+            $component->commandOutput .= "Creating symbolic link for storage...\n";
+            Artisan::call('storage:link');
+            $component->commandOutput .= Artisan::output() . "Symbolic link created successfully.\n";
+        }, 'Symlink penyimpanan berhasil dibuat!', 'Gagal membuat symlink penyimpanan.');
+    }
+
     public function resetDatabase()
     {
         $this->runCommand(function ($component) {

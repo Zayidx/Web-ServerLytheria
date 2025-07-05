@@ -266,7 +266,7 @@
     <header class="bg-black/60 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-800">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="/" class="text-2xl font-bold text-white flex items-center gap-3">
-                <img class="w-10 h-10" src="{{ $settings['server_logo'] ?? asset('storage/logo.png') }}" alt="Logo Server">
+                <img class="w-10 h-10" src="{{ $settings['logo_url'] ?? asset('storage/logo.png') }}" alt="Logo Server">
                 <span>{{ $settings['server_name'] ?? 'Lytheria SMP' }}</span>
             </a>
             <div class="hidden md:flex items-center space-x-8 font-medium">

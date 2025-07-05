@@ -92,6 +92,30 @@
                         </button>
                     </div>
 
+                    <!-- Storage Link -->
+                    <div class="flex items-center justify-between pt-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-text-primary">Buat Symlink Penyimpanan</h3>
+                            <p class="text-sm text-text-secondary mt-1">Jalankan `php artisan storage:link` untuk membuat symlink ke folder penyimpanan publik.</p>
+                        </div>
+                        <button 
+                            wire:click="runStorageLink" 
+                            wire:confirm="Anda yakin ingin membuat symlink penyimpanan? Ini diperlukan agar file yang diunggah dapat diakses secara publik."
+                            wire:loading.attr="disabled"
+                            wire:loading.class="opacity-50 cursor-not-allowed"
+                            class="btn bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg flex-shrink-0"
+                        >
+                            <span wire:loading.remove wire:target="runStorageLink">
+                                <i class="fas fa-link mr-2"></i>
+                                Buat Symlink
+                            </span>
+                            <span wire:loading wire:target="runStorageLink">
+                                <i class="fas fa-spinner fa-spin mr-2"></i>
+                                Membuat...
+                            </span>
+                        </button>
+                    </div>
+
                     <!-- Reset Database -->
                     <div class="flex items-center justify-between pt-4">
                         <div>
