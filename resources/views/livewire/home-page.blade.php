@@ -31,7 +31,6 @@
                         <i class="fas fa-users text-3xl"></i>
                     </div>
                     <div>
-                        {{-- Data ini idealnya ditarik secara live dari server Anda --}}
                         <h3 class="text-4xl font-bold text-white">1,245</h3>
                         <p class="mt-1 text-gray-400">Pemain Online</p>
                     </div>
@@ -56,7 +55,6 @@
                         <i class="fas fa-server text-3xl"></i>
                     </div>
                     <div>
-                        {{-- Data ini idealnya ditarik menggunakan query status server --}}
                         <h3 class="text-4xl font-bold text-green-400">Online</h3>
                         <p class="mt-1 text-gray-400">Status Server</p>
                     </div>
@@ -70,7 +68,8 @@
         <div class="container mx-auto px-6">
             <h2 class="text-4xl md:text-5xl font-bold text-center text-white mb-16" data-aos="fade-up">Mode Permainan Unggulan</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Gamemode Card 1: Survival RPG -->
+                
+                <!-- Gamemode Card 1: Survival RPG (FIXED) -->
                 <div class="glass-card group rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="100">
                     <div class="relative h-80">
                         <img src="{{ asset('storage/bghome.png') }}" alt="Survival RPG" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
@@ -79,7 +78,7 @@
                             <h3 class="text-3xl font-bold text-white">Survival RPG</h3>
                             <button @click="openModal = true; selectedGamemode = {
                                 title: 'Survival RPG',
-                                image: @json(asset('storage/bghome.png')),
+                                image: '{{ asset('storage/bghome.png') }}',
                                 description: 'Bertahan hidup di dunia yang luas dengan sistem level, skill unik, misi menantang, dan dungeon berbahaya. Kumpulkan sumber daya, buat perlengkapan legendaris, dan jadilah petualang terhebat di {{ $settings['server_name'] ?? 'Lytheria SMP' }}.'
                             }" class="mt-4 text-blue-400 font-semibold hover:text-white transition">
                                 Selengkapnya <i class="fas fa-arrow-right ml-1"></i>
@@ -87,7 +86,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- Gamemode Card 2: Skyblock Galaxy -->
+                
+                <!-- Gamemode Card 2: Skyblock Galaxy (FIXED) -->
                 <div class="glass-card group rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="200">
                     <div class="relative h-80">
                         <img src="{{ asset('storage/bghome.png') }}" alt="Skyblock Galaxy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
@@ -96,7 +96,7 @@
                             <h3 class="text-3xl font-bold text-white">Skyblock Galaxy</h3>
                             <button @click="openModal = true; selectedGamemode = {
                                 title: 'Skyblock Galaxy',
-                                image: @json(asset('storage/bghome.png')),
+                                image: '{{ asset('storage/bghome.png') }}',
                                 description: 'Mulai petualangan dari sebuah pulau kecil di angkasa. Kembangkan pulaumu, bangun generator otomatis, berdagang dengan pemain lain di pusat ekonomi, dan taklukkan tantangan untuk menjadi penguasa langit.'
                             }" class="mt-4 text-blue-400 font-semibold hover:text-white transition">
                                 Selengkapnya <i class="fas fa-arrow-right ml-1"></i>
@@ -104,7 +104,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- Gamemode Card 3: Creative Plots -->
+
+                <!-- Gamemode Card 3: Creative Plots (FIXED) -->
                 <div class="glass-card group rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="300">
                     <div class="relative h-80">
                         <img src="{{ asset('storage/bghome.png') }}" alt="Creative Plots" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
@@ -113,7 +114,7 @@
                             <h3 class="text-3xl font-bold text-white">Creative Plots</h3>
                             <button @click="openModal = true; selectedGamemode = {
                                 title: 'Creative Plots',
-                                image: @json(asset('storage/bghome.png')),
+                                image: '{{ asset('storage/bghome.png') }}',
                                 description: 'Bebaskan imajinasimu di dunia tanpa batas. Dapatkan lahan pribadimu dan bangun apa pun yang kamu inginkan dengan akses ke semua blok dan item. Pamerkan mahakaryamu kepada seluruh komunitas.'
                             }" class="mt-4 text-blue-400 font-semibold hover:text-white transition">
                                 Selengkapnya <i class="fas fa-arrow-right ml-1"></i>
@@ -171,7 +172,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Tombol Lihat Semua Berita -->
             <div class="text-center mt-16" data-aos="fade-up">
                 <a href="{{ route('news') }}" class="btn btn-secondary text-lg font-bold py-3 px-10 rounded-lg">
                     Lihat Semua Berita <i class="fas fa-arrow-right ml-2"></i>
@@ -183,15 +183,12 @@
     <!-- Combined Action Section -->
     <section id="actions" class="py-24">
         <div class="container mx-auto px-6">
-            <!-- Section Header -->
             <div class="text-center mb-16">
                 <h2 class="text-4xl md:text-5xl font-bold text-white" data-aos="fade-up">Tingkatkan Pengalamanmu</h2>
                 <p class="mt-4 text-lg text-gray-400 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">
                     Dukung server, bersaing di papan peringkat, dan dapatkan item eksklusif untuk menjadikan petualanganmu lebih seru.
                 </p>
             </div>
-
-            <!-- 3-Column Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Card 1: Vote -->
                 <div class="glass-card p-8 text-center rounded-xl flex flex-col items-center hover:transform hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="200">
@@ -204,7 +201,6 @@
                         Voting Sekarang
                     </a>
                 </div>
-
                 <!-- Card 2: Leaderboard -->
                 <div class="glass-card p-8 text-center rounded-xl flex flex-col items-center hover:transform hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="300">
                     <div class="bg-blue-500/10 text-blue-400 p-5 rounded-full mb-6">
@@ -216,7 +212,6 @@
                         Lihat Peringkat
                     </a>
                 </div>
-
                 <!-- Card 3: Store -->
                 <div class="glass-card p-8 text-center rounded-xl flex flex-col items-center hover:transform hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="400">
                     <div class="bg-blue-500/10 text-blue-400 p-5 rounded-full mb-6">
