@@ -1,21 +1,16 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Panel') - {{ $settings['server_name'] ?? 'Nilai Default' }}</title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {{-- Memuat SEMUA aset (CSS & JS) dari satu titik melalui Vite --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     
-    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
-    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    {{-- SweetAlert2 bisa dibiarkan atau dipindahkan juga via NPM jika diinginkan --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <style>
         :root {
@@ -138,7 +133,7 @@
         <aside id="sidebar" class="w-64 flex-shrink-0 bg-secondary border-r border-gray-800 flex flex-col sidebar">
             <div class="px-6 py-4 border-b border-gray-800 sidebar-header">
                 <a href="/" class="text-2xl font-bold text-white flex items-center gap-3">
-                    <img class="w-10 h-10" src="{{ asset('storage/logo.png') }}" alt="">
+                    <img class="w-10 h-10" src="{{ $settings['logo_url'] ?? 'Nilai Default' }}" alt="">
                     <span>{{ $settings['server_name'] ?? 'Nilai Default' }}</span>
                 </a>
                 <span class="text-xs text-blue-400 ml-1">Admin Panel</span>
@@ -153,11 +148,18 @@
                 <a href="{{ route('admin.categories') }}" class="flex items-center gap-3 px-6 py-3 text-gray-300 hover:bg-gray-800/50 hover:text-white transition {{ request()->routeIs('admin.categories') ? 'nav-active' : '' }}">
                     <i class="fas fa-tags fa-fw w-6 text-center"></i><span>Kategori Berita</span>
                 </a>
+                <a href="{{ route('admin.gamemodes') }}" class="flex items-center gap-3 px-6 py-3 text-gray-300 hover:bg-gray-800/50 hover:text-white transition {{ request()->routeIs('admin.categories') ? 'nav-active' : '' }}">
+        <i class="fas fa-gamepad fa-fw w-6 text-center"></i>
+        Gamemodes
+    </a>
                 <a href="{{ route('admin.owners') }}" class="flex items-center gap-3 px-6 py-3 text-gray-300 hover:bg-gray-800/50 hover:text-white transition {{ request()->routeIs('admin.owners') ? 'nav-active' : '' }}">
                     <i class="fas fa-user-shield fa-fw w-6 text-center"></i><span>Manajemen Owner</span>
                 </a>
-                <a href="{{ route('admin.vote') }}" class="flex items-center gap-3 px-6 py-3 text-gray-300 hover:bg-gray-800/50 hover:text-white transition {{ request()->routeIs('admin.vote') ? 'nav-active' : '' }}">
+                <a href="{{ route('admin.votes') }}" class="flex items-center gap-3 px-6 py-3 text-gray-300 hover:bg-gray-800/50 hover:text-white transition {{ request()->routeIs('admin.vote') ? 'nav-active' : '' }}">
                     <i class="fas fa-vote-yea fa-fw w-6 text-center"></i><span>Manajemen Vote</span>
+                </a>
+                <a href="{{ route('admin.shop') }}" class="flex items-center gap-3 px-6 py-3 text-gray-300 hover:bg-gray-800/50 hover:text-white transition {{ request()->routeIs('admin.shop') ? 'nav-active' : '' }}">
+                    <i class="fas fa-vote-yea fa-fw w-6 text-center"></i><span>Manajemen Toko</span>
                 </a>
             </nav>
             <div class="px-6 py-4 border-t border-gray-800">

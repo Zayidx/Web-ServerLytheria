@@ -1,5 +1,4 @@
 <?php
-// File: database/seeders/SettingSeeder.php
 
 namespace Database\Seeders;
 
@@ -27,6 +26,8 @@ class SettingSeeder extends Seeder
             ['key' => 'instagram_link', 'value' => 'https://instagram.com/your-profile'],
             ['key' => 'server_description', 'value' => 'Temukan petualangan epik, bangun mahakarya, dan jadilah bagian dari komunitas game terbaik di Indonesia.'],
             ['key' => 'footer_copyright', 'value' => '© ' . date('Y') . ' Lytheria SMP. Semua Hak Cipta Dilindungi. Tidak berafiliasi dengan Mojang AB.'],
+            ['key' => 'logo_url', 'value' => 'https://i.ibb.co/C3knFmFY/logo.png'], // URL Logo
+            ['key' => 'hero_background_image_url', 'value' => 'https://i.ibb.co/tPsb4HgC/bghome.png'], // URL Gambar Latar Belakang Hero
         ];
 
         foreach ($settings as $setting) {

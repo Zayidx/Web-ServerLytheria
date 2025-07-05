@@ -6,7 +6,10 @@ use Livewire\Component;
 use App\Models\Setting;
 use App\Models\News;
 use App\Models\User;
+use Illuminate\Support\Facades\Artisan;
 use Livewire\Attributes\Layout;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 #[Layout('components.layouts.admin-layout')]
 class Dashboard extends Component
@@ -14,19 +17,85 @@ class Dashboard extends Component
     public $totalNews;
     public $totalUsers;
     public $settings = [];
+    public $commandOutput = '';
+    public $commandStatus = ''; // 'success', 'error', ''
 
-    // Metode untuk memuat semua data dashboard
     public function loadDashboardData()
     {
         $this->totalNews = News::count();
         $this->totalUsers = User::count();
-        // Pastikan untuk memuat ulang pengaturan dari database
         $this->settings = Setting::pluck('value', 'key')->toArray();
     }
 
     public function mount()
     {
-        $this->loadDashboardData(); // Panggil saat komponen pertama kali dimuat
+        $this->loadDashboardData();
+    }
+
+    private function runCommand(callable $command, $successMessage, $errorMessage)
+    {
+        $this->commandOutput = '';
+        $this->commandStatus = '';
+        try {
+            $command($this);
+            $this->commandStatus = 'success';
+            $this->dispatch('swal:success', ['message' => $successMessage]);
+        } catch (\Exception $e) {
+            $this->commandOutput .= "An error occurred:\n";
+            if ($e instanceof ProcessFailedException) {
+                $this->commandOutput .= $e->getProcess()->getErrorOutput();
+            } else {
+                $this->commandOutput .= $e->getMessage();
+            }
+            $this->commandStatus = 'error';
+            $this->dispatch('swal:error', ['message' => $errorMessage]);
+        }
+    }
+
+    public function updateProject()
+    {
+        $this->runCommand(function ($component) {
+            $path = base_path();
+            $component->commandOutput .= "Starting project update...\n\n";
+
+            $component->commandOutput .= "Running 'git pull origin main'...\n";
+            (new Process(['git', 'pull', 'origin', 'main'], $path))->mustRun(function ($type, $buffer) use ($component) {
+                $component->commandOutput .= $buffer;
+            });
+
+            $component->commandOutput .= "\nRunning 'composer install'...\n";
+            (new Process(['composer', 'install', '--no-interaction', '--no-dev', '--prefer-dist'], $path))->mustRun(function ($type, $buffer) use ($component) {
+                $component->commandOutput .= $buffer;
+            });
+
+            $component->commandOutput .= "\nRunning migrations...\n";
+            Artisan::call('migrate', ['--force' => true]);
+            $component->commandOutput .= Artisan::output();
+
+            $component->commandOutput .= "\nClearing application caches...\n";
+            Artisan::call('optimize:clear');
+            $component->commandOutput .= Artisan::output() . "Caches cleared successfully.\n";
+
+            $component->commandOutput .= "\nProject update completed successfully!";
+        }, 'Proyek berhasil diperbarui dari GitHub!', 'Gagal memperbarui proyek.');
+    }
+
+    public function clearCache()
+    {
+        $this->runCommand(function ($component) {
+            $component->commandOutput .= "Clearing application caches...\n";
+            Artisan::call('optimize:clear');
+            $component->commandOutput .= Artisan::output() . "Caches cleared successfully.\n";
+        }, 'Cache berhasil dibersihkan!', 'Gagal membersihkan cache.');
+    }
+
+    public function resetDatabase()
+    {
+        $this->runCommand(function ($component) {
+            $component->commandOutput .= "Resetting database...\n";
+            Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
+            $component->commandOutput .= Artisan::output() . "Database has been reset and seeded successfully.\n";
+        }, 'Database berhasil direset!', 'Gagal mereset database.');
     }
 
     protected function rules()
@@ -40,6 +109,8 @@ class Dashboard extends Component
             'settings.instagram_link' => 'nullable|url:http,https',
             'settings.footer_copyright' => 'required|string|max:255',
             'settings.server_description' => 'required|string',
+            'settings.logo_url' => 'nullable|url:http,https',
+            'settings.hero_background_image_url' => 'nullable|url:http,https',
         ];
     }
 
@@ -61,8 +132,7 @@ class Dashboard extends Component
             Setting::updateOrCreate(['key' => $key], ['value' => $value ?? '']);
         }
 
-        // Setelah menyimpan, muat ulang data dashboard untuk memastikan tampilan diperbarui
-        $this->loadDashboardData(); 
+        $this->loadDashboardData();
 
         $this->dispatch('swal:success', [
             'message' => 'Pengaturan server berhasil diperbarui!'
@@ -74,4 +144,3 @@ class Dashboard extends Component
         return view('livewire.admin.dashboard');
     }
 }
-

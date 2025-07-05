@@ -63,7 +63,7 @@
                 type="text" 
                 id="chat-input" 
                 wire:model.defer="userInput"
-                class="flex-grow bg-gray-800 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 w-full disabled:opacity-50"  
+                class="flex-grow bg-gray-800 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full disabled:opacity-50"  
                 placeholder="Ketik pertanyaanmu di sini..."
                 autocomplete="off"
                 wire:keydown.enter.prevent="sendMessage"

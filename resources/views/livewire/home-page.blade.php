@@ -2,7 +2,7 @@
     <!-- Hero Section -->
     <section class="relative text-center py-28 md:py-40 lg:py-48 overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-bg-primary"></div>
-        <div class="absolute inset-0" style="background-image: url('{{ $settings['hero_background_image'] ?? asset('storage/bghome.png') }}'); background-size: cover; background-position: center; filter: blur(5px) saturate(1.2); opacity: 0.3;"></div>
+        <div class="absolute inset-0" style="background-image: url('{{ $settings['hero_background_image_url'] ?? 'Nilai Default' }}'); background-size: cover; background-position: center; filter: blur(5px) saturate(1.2); opacity: 0.3;"></div>
         <div class="relative container mx-auto px-6">
             <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight" data-aos="fade-up">
                 Jelajahi Dunia <span class="text-blue-400 text-glow">{{ $settings['server_name'] ?? 'Lytheria SMP' }}</span>
@@ -68,60 +68,26 @@
         <div class="container mx-auto px-6">
             <h2 class="text-4xl md:text-5xl font-bold text-center text-white mb-16" data-aos="fade-up">Mode Permainan Unggulan</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                <!-- Gamemode Card 1: Survival RPG (FIXED) -->
-                <div class="glass-card group rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                @forelse($gamemodes as $index => $gamemode)
+                <div class="glass-card group rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="{{ ($index + 1) * 100 }}">
                     <div class="relative h-80">
-                        <img src="{{ asset('storage/bghome.png') }}" alt="Survival RPG" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <img src="{{ $gamemode->image_url }}" alt="{{ $gamemode->name }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-6">
-                            <h3 class="text-3xl font-bold text-white">Survival RPG</h3>
+                            <h3 class="text-3xl font-bold text-white">{{ $gamemode->name }}</h3>
                             <button @click="openModal = true; selectedGamemode = {
-                                title: 'Survival RPG',
-                                image: '{{ asset('storage/bghome.png') }}',
-                                description: 'Bertahan hidup di dunia yang luas dengan sistem level, skill unik, misi menantang, dan dungeon berbahaya. Kumpulkan sumber daya, buat perlengkapan legendaris, dan jadilah petualang terhebat di {{ $settings['server_name'] ?? 'Lytheria SMP' }}.'
+                                title: '{{ addslashes($gamemode->name) }}',
+                                image: '{{ $gamemode->image_url }}',
+                                description: '{{ addslashes($gamemode->description) }}'
                             }" class="mt-4 text-blue-400 font-semibold hover:text-white transition">
                                 Selengkapnya <i class="fas fa-arrow-right ml-1"></i>
                             </button>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Gamemode Card 2: Skyblock Galaxy (FIXED) -->
-                <div class="glass-card group rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="200">
-                    <div class="relative h-80">
-                        <img src="{{ asset('storage/bghome.png') }}" alt="Skyblock Galaxy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-6">
-                            <h3 class="text-3xl font-bold text-white">Skyblock Galaxy</h3>
-                            <button @click="openModal = true; selectedGamemode = {
-                                title: 'Skyblock Galaxy',
-                                image: '{{ asset('storage/bghome.png') }}',
-                                description: 'Mulai petualangan dari sebuah pulau kecil di angkasa. Kembangkan pulaumu, bangun generator otomatis, berdagang dengan pemain lain di pusat ekonomi, dan taklukkan tantangan untuk menjadi penguasa langit.'
-                            }" class="mt-4 text-blue-400 font-semibold hover:text-white transition">
-                                Selengkapnya <i class="fas fa-arrow-right ml-1"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Gamemode Card 3: Creative Plots (FIXED) -->
-                <div class="glass-card group rounded-xl overflow-hidden" data-aos="fade-up" data-aos-delay="300">
-                    <div class="relative h-80">
-                        <img src="{{ asset('storage/bghome.png') }}" alt="Creative Plots" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-6">
-                            <h3 class="text-3xl font-bold text-white">Creative Plots</h3>
-                            <button @click="openModal = true; selectedGamemode = {
-                                title: 'Creative Plots',
-                                image: '{{ asset('storage/bghome.png') }}',
-                                description: 'Bebaskan imajinasimu di dunia tanpa batas. Dapatkan lahan pribadimu dan bangun apa pun yang kamu inginkan dengan akses ke semua blok dan item. Pamerkan mahakaryamu kepada seluruh komunitas.'
-                            }" class="mt-4 text-blue-400 font-semibold hover:text-white transition">
-                                Selengkapnya <i class="fas fa-arrow-right ml-1"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                @empty
+                <p class="text-center text-gray-400 col-span-3">Gamemodes will be listed here soon.</p>
+                @endforelse
             </div>
         </div>
 
@@ -155,22 +121,23 @@
         <div class="container mx-auto px-6">
             <h2 class="text-4xl md:text-5xl font-bold text-center text-white mb-16" data-aos="fade-up">Berita & Pembaruan</h2>
             <div class="space-y-8">
+                @forelse($news as $item)
                 <div class="glass-card rounded-xl p-6 flex flex-col md:flex-row items-center gap-6" data-aos="fade-right">
-                    <img src="{{ asset('storage/bghome.png') }}" alt="Pembaruan Server" class="w-full md:w-1/3 h-auto object-cover rounded-lg">
+                    <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="w-full md:w-1/3 h-auto object-cover rounded-lg">
                     <div class="flex-1">
-                        <p class="text-sm text-blue-400 mb-2 font-semibold">04 Juli 2025</p>
-                        <h3 class="text-2xl font-bold text-white mb-3">Pembaruan Besar: The Nether Rises!</h3>
-                        <p class="text-gray-400">Jelajahi bioma Nether baru, hadapi musuh baru, dan temukan item legendaris. Update ini juga membawa perbaikan performa server secara signifikan.</p>
+                        <p class="text-sm text-blue-400 mb-2 font-semibold">{{ $item->published_at->format('d F Y') }}</p>
+                        <h3 class="text-2xl font-bold text-white mb-3">{{ $item->title }}</h3>
+                        <p class="text-gray-400">{{ Str::limit(strip_tags($item->content), 150) }}</p>
+                        <a href="{{ route('news.detail', $item->slug) }}" class="mt-4 inline-block text-blue-400 font-semibold hover:text-white transition">
+                            Baca Selengkapnya <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
                     </div>
                 </div>
-                <div class="glass-card rounded-xl p-6 flex flex-col md:flex-row items-center gap-6" data-aos="fade-left">
-                    <img src="{{ asset('storage/bghome.png') }}" alt="Event Komunitas" class="w-full md:w-1/3 h-auto object-cover rounded-lg">
-                    <div class="flex-1">
-                        <p class="text-sm text-blue-400 mb-2 font-semibold">28 Juni 2025</p>
-                        <h3 class="text-2xl font-bold text-white mb-3">Event Komunitas: Lomba Membangun</h3>
-                        <p class="text-gray-400">Tunjukkan kreativitasmu dalam lomba membangun bertema 'Kerajaan Bawah Air'. Pemenang akan mendapatkan hadiah rank eksklusif dan item langka!</p>
-                    </div>
+                @empty
+                <div class="text-center text-gray-400" data-aos="fade-up">
+                    <p>Belum ada berita untuk saat ini.</p>
                 </div>
+                @endforelse
             </div>
             <div class="text-center mt-16" data-aos="fade-up">
                 <a href="{{ route('news') }}" class="btn btn-secondary text-lg font-bold py-3 px-10 rounded-lg">
