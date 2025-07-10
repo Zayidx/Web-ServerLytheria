@@ -17,8 +17,8 @@
                             <a href="{{ route('news.detail', $item->slug) }}" class="hover:text-blue-300 transition" title="{{ $item->title }}">{{ $item->title }}</a>
                         </h2>
                         <p class="mt-3 text-gray-400 text-sm">
-                            {{ \Illuminate\Support\Str::limit(strip_tags($item->content), 120) }}
-                        </p>
+    {{ \Illuminate\Support\Str::limit(strip_tags(\Illuminate\Support\Str::markdown($item->content)), 120) }}
+</p>
                         <footer class="mt-4 pt-4 border-t border-gray-800 flex items-center justify-between">
                             <div class="text-xs text-gray-500">
                                 oleh {{ $item->owner->name }} <br>

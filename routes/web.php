@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\HomePage;
+use App\Livewire\Maintenance;
 use App\Livewire\News;
 use App\Livewire\DetailNews;
 use App\Livewire\Shop;
@@ -20,7 +21,7 @@ use App\Livewire\Admin\Gamemode as AdminGamemode;
 Route::get('/', HomePage::class)->name('home');
 Route::get('/news', News::class)->name('news');
 Route::get('/news/{slug}', DetailNews::class)->name('news.detail');
-Route::get('/shop', Shop::class)->name('shop');
+Route::get('/shop', Maintenance::class)->name('shop');
 Route::get('/vote', Vote::class)->name('vote');
 
 Route::middleware('guest')->group(function () {

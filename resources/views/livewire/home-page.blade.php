@@ -127,7 +127,9 @@
                     <div class="flex-1">
                         <p class="text-sm text-blue-400 mb-2 font-semibold">{{ $item->published_at->format('d F Y') }}</p>
                         <h3 class="text-2xl font-bold text-white mb-3">{{ $item->title }}</h3>
-                        <p class="text-gray-400">{{ Str::limit(strip_tags($item->content), 150) }}</p>
+                        <p class="mt-3 text-gray-400 text-sm">
+    {{ \Illuminate\Support\Str::limit(strip_tags(\Illuminate\Support\Str::markdown($item->content)), 150) }}
+</p>
                         <a href="{{ route('news.detail', $item->slug) }}" class="mt-4 inline-block text-blue-400 font-semibold hover:text-white transition">
                             Baca Selengkapnya <i class="fas fa-arrow-right ml-1"></i>
                         </a>
